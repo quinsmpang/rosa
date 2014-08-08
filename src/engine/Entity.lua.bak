@@ -14,8 +14,7 @@ function Entity:destroy()
 end
 
 function Entity:addComponent(component_name)
-    -- TODO: Error out on occupied slots, or destroy the previous component
-    local component = coreman.newComponent(component_name, self)
+    local component = coreman.createComponent(component_name, self)
     
     self.components[component_name] = component
     self[component.slot] = component

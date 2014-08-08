@@ -8,8 +8,48 @@ function Scene:__init()
     -- Entities contained in this scene
     self.entities = {}
     
+    -- Systems operating on this scene
+    self.systems = {}
+    
+    -- System hooks
+    self.hooks = {
+        draw = {},
+        update = {},
+        
+        keypressed = {},
+        keyreleased = {},
+        
+        mousepressed = {},
+        mousereleased = {},
+    }
+    
     -- Collections for components that need collecting
     self.nodes = {}
+end
+
+function Scene:addSystem(system_name)
+    -- TODO: Error out on occupied slots, or destroy the previous system
+    local system = coreman.newSystem(system_name, self)
+    self.systems[system_name] = system
+    
+    self[system.slot] = system
+    
+    for _, hook in ipairs(system.hooks) do
+        self.hooks[hook][system] = system
+    end
+end
+
+function Scene:removeSystem(system_name)
+    if self.systems[system_name] then return end
+    
+    local system = self.systems[system_name]
+    
+    self.systems[system_name] = nil
+    self[system.slot] = nil
+    
+    for _, hook in ipairs(system.hooks) do
+        self.hooks[hook][system] = nil
+    end
 end
 
 function Scene:newEntity()
@@ -20,17 +60,6 @@ function Scene:newEntity()
     return entity
 end
 
---function Scene:addEntity(entity)
-    --self.entities[entity] = entity
-    --
-    --for _, component in pairs(entity.components) do
-        --if component.collect then
-            --self.nodes[component.type] = self.nodes[component.type] or {}
-            --self.nodes[component.type][component] = component
-        --end
-    --end
---end
-
 function Scene:removeEntity(entity)
     if self.entities[entity] == nil then return end
     
@@ -39,17 +68,18 @@ function Scene:removeEntity(entity)
     entity:Destroy()
 end
 
--- TODO: Use renderman
-function Scene:draw()
-    rosa.renderman.draw(self)
-    --for _, object in pairs(self.entities) do
-        --object:draw()
-    --end
+function Scene:draw(camera)
+    if not self.render_system then return end
+    
+    if camera ~= nil then camera:set() end
+    
+    self.render_system:draw()
+    
+    if camera ~= nil then camera:unset() end
 end
 
 function Scene:update(dt)
-    -- Update physics
-    --for _, object in pairs(self.entities) do
-        --
-    --end
+    for _, system in pairs(self.hooks.update) do
+        system:update(dt)
+    end
 end

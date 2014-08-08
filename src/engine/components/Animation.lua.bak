@@ -1,25 +1,28 @@
 flux = require "lib.flux.flux"
 
-Sprite = Component:extends()
+Animation = Behavior:extends()
 
-Sprite.slot = "sprite"
-Sprite.type = "Sprite"
-Sprite.collect = false
+Animation.slot = "animation"
+Animation.type = "Animation"
+Animation.collect = true
 
 
-function Sprite:__init(entity)
-    SceneObject.__init(self)
+function Animation:__init(entity)
+    Behavior.__init(self, entity)
     
     self.animation = nil
     self.animation_start = love.timer.getTime()
-    self.animation_frame = 1
     
     self.spritesheet = nil
     
     self.animations = {}
 end
 
-function Sprite:addAnimation(name, frames, speed, play_after)
+function Animation:setSpritesheet(spritesheet)
+    self.spritesheet = spritesheet
+end
+
+function Animation:addAnimation(name, frames, speed, play_after)
     speed = speed or 100
     
     self.animations[name] = {
@@ -31,7 +34,7 @@ function Sprite:addAnimation(name, frames, speed, play_after)
     return name
 end
 
-function Sprite:playAnimation(name, starting_frame, _time_offset)
+function Animation:playAnimation(name, starting_frame, _time_offset)
     if name == nil then
         self.animation = nil
     end
@@ -42,12 +45,11 @@ function Sprite:playAnimation(name, starting_frame, _time_offset)
     if not anim then return end
     
     self.animation = name
-    self.animation_frame = starting_frame
     
     self.animation_start = love.timer.getTime() - (starting_frame-1) * anim.speed * 0.001 - (_time_offset or 0)
 end
 
-function Sprite:getAnimationFrame()
+function Animation:getAnimationFrame()
     local anim = self.animations[self.animation]
     local predicted_frame = 1 + (love.timer.getTime() - self.animation_start) / (anim.speed * 0.001)
     
@@ -61,7 +63,7 @@ function Sprite:getAnimationFrame()
     return math.floor(math.min(math.max(predicted_frame, 1), #anim.frames))
 end
 
-function Sprite:draw()
+function Animation:draw()
     local r = self.rotation
     local sx = self.scale_x * (self.flip_x and -1 or 1)
     local sy = self.scale_y * (self.flip_y and -1 or 1)
@@ -80,4 +82,4 @@ function Sprite:draw()
     end
 end
 
-componentman.register(Sprite)
+componentman.registerComponent(Animation)

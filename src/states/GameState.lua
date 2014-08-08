@@ -13,12 +13,22 @@ function GameState:load()
     self.camera.pixel_perfect = true
     
     self.scene = sceneman.newScene()
+    self.scene:addSystem("RenderSystem")
     
     self.player = self.scene:newEntity()
     self.player:addComponent("Drawable")
     self.player.drawable.drawable = love.graphics.newImage("data/img/hires-mario.png")
     
-    --self.player.addComponent("Sprite")
+    self.player:addComponent("Animation")
+    
+    player_tilesheet = Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
+    self.player.animation:setSpritesheet(player_tilesheet)
+    
+    self.player.animation:addAnimation("idle", {1})
+    self.player.animation:addAnimation("start walking", {2}, 100, "walk")
+    self.player.animation:addAnimation("walk", {3, 4, 5}, 100, "walk")
+    
+    self.player.animation:playAnimation("start walking")
     
     --self.terrain_tileset = Spritesheet(love.graphics.newImage("data/img/terrain_tiles.png"), 16, 16)
     --self.player_tilesheet = Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
@@ -61,16 +71,12 @@ function GameState:update(dt)
     local dx, dy = keyboard.keypadDirection("w", "s", "a", "d", 240 * dt)
     self.camera:move(dx, dy)
     
-    --self.scene:update()
+    self.scene:update(dt)
 end
 
 function GameState:draw()
-    self.camera:set()
-    
     --love.graphics.setBackgroundColor(unpack(colors[4]))
     love.graphics.clear()
     
-    self.scene:draw()
-    
-    self.camera:unset()
+    self.scene:draw(self.camera)
 end

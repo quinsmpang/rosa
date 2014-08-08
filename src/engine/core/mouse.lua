@@ -1,4 +1,4 @@
-require(rosa.prefix .. "systems.keyboard")
+require(rosa.prefix .. "core.keyboard")
 
 mouse = {}
 

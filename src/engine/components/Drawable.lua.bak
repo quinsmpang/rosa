@@ -31,4 +31,4 @@ function Drawable:draw()
     end
 end
 
-coreman.registerComponent(Drawable)
+componentman.registerComponent(Drawable)
