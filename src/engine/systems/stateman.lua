@@ -33,3 +33,5 @@ end
 function stateman.setPause(pause)
     stateman.pause = pause
 end
+
+return stateman

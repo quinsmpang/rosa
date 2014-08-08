@@ -1,4 +1,4 @@
-require "src.engine.Scene"
+require(rosa.prefix .. "Scene")
 
 sceneman = {}
 sceneman.scenes = {}
@@ -26,3 +26,5 @@ end
 function sceneman.setPause(pause)
     sceneman.pause = pause
 end
+
+return sceneman

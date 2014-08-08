@@ -1,10 +1,12 @@
-class = require("lib.30log")
+require(rosa.prefix .. "resources.Resource")
 
 local empty_quad = love.graphics.newQuad(0, 0, 0, 0, 1, 1)
 
-Spritesheet = class()
+Spritesheet = Resource:extends()
 
 function Spritesheet:__init(image, tile_width, tile_height)
+    Resource.__init(self)
+    
     self.image = image
     
     self.tile_width = tile_width or image:getWidth()

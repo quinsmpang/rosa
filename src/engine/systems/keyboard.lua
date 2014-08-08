@@ -212,3 +212,5 @@ function keyboard.keypadDirection(up, down, left, right, speed)
 end
 
 keyboard.start()
+
+return keyboard

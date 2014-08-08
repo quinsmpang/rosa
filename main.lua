@@ -1,6 +1,8 @@
 --require "modrun"
 
-require "src.love_utils"
+require("src.love_utils")
+
+require("src.engine")
 
 colors = {
     {9, 18, 73, 255},
@@ -47,15 +49,16 @@ function initializeEngine()
     require("lib.loveframes")
     
     -- Input subsystems
-    require("src.engine.keyboard")
-    require("src.engine.mouse")
+    keyboard = rosa.keyboard
+    mouse = rosa.mouse
     
     -- Debug console
-    require("src.engine.console")
+    console = rosa.console
+    --require("src.engine.console")
     
     -- Managers
-    require("src.engine.stateman")
-    require("src.engine.sceneman")
+    stateman = rosa.stateman
+    --sceneman = rosa.sceneman
     
     --ui_enabled = true
     --createMenubar(menu_template)

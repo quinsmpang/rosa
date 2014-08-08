@@ -1,4 +1,4 @@
-require "src.engine.keyboard"
+require(rosa.prefix .. "systems.keyboard")
 
 mouse = {}
 
@@ -179,3 +179,5 @@ function mouse.iterateDown(complex)
 end
 
 mouse.start()
+
+return mouse

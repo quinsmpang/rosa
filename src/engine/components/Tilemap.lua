@@ -1,9 +1,10 @@
-class = require("lib.30log")
+Tilemap = Component:extends()
 
-require "src.engine.objects.SceneObject"
-require "src.engine.objects.internal.TilemapChunk"
+Tilemap.slot = "tilemap"
+Tilemap.type = "Tilemap"
+Tilemap.collect = false
 
-Tilemap = SceneObject:extends()
+require(rosa.prefix .. "components.internal.TilemapChunk")
 
 function Tilemap:__init(x, y, chunk_width, chunk_height, limits)
     SceneObject.__init(self, x, y)
@@ -56,3 +57,5 @@ function Tilemap:draw()
         chunk:draw()
     end
 end
+
+componentman.register(Tilemap)

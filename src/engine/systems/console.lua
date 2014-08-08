@@ -172,3 +172,5 @@ function console.toggleConsole()
 end
 
 console.initialize()
+
+return console
