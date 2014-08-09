@@ -28,23 +28,36 @@ function Scene:__init()
 end
 
 function Scene:addSystem(system_name)
-    -- TODO: Error out on occupied slots, or destroy the previous system
-    local system = coreman.newSystem(system_name, self)
+    local SystemClass = coreman.getSystemClass(system_name)
+    
+    if self.systems[system_name] ~= nil then
+        error("This Scene instance already has a '" .. system_name .. "' system")
+    end
+    
+    local system = SystemClass(self)
+    
     self.systems[system_name] = system
     
-    self[system.slot] = system
+    if system.slot then
+        self[system.slot] = system
+    end
     
     for _, hook in ipairs(system.hooks) do
         self.hooks[hook][system] = system
     end
 end
 
-function Scene:removeSystem(system_name)
-    if self.systems[system_name] then return end
+-- allowed to return nil
+function Scene:getSystem(system_name)
+    return self.systems[system_name]
+end
+
+function Scene:removeSystem(system)
+    if not self.systems[system.name] then
+        error("Given system does not belong to this Scene")
+    end
     
-    local system = self.systems[system_name]
-    
-    self.systems[system_name] = nil
+    self.systems[system.name] = nil
     self[system.slot] = nil
     
     for _, hook in ipairs(system.hooks) do

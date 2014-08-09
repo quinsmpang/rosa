@@ -8,8 +8,13 @@ Component = class()
 Component.slot = nil
 Component.type = "Component"
 Component.collect = false
+Component.allow_multiple = false
 
 function Component:__init(entity)
+    if not Entity.is(entity, Entity) then
+        error("Given entity argument is not an actual Entity instance")
+    end
+    
     -- entity: The entity this component is attached to
     self.entity = entity
 end

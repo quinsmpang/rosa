@@ -7,7 +7,7 @@ Behavior.type = "Behavior"
 Behavior.collect = false
 
 function Behavior:__init(entity, enabled)
-    Component.__init(entity)
+    Component.__init(self, entity)
     
     self.enabled = enabled or true
 end

@@ -24,7 +24,7 @@ function Drawable:draw()
         x, y, r, sx, sy = self.transform:getTransform()
     end
     
-    if self.quad then
+    if self.quad ~= nil then
         love.graphics.draw(self.drawable, self.quad, x, y, r, sx, sy)
     else
         love.graphics.draw(self.drawable, x, y, r, sx, sy)

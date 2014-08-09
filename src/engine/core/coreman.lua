@@ -4,21 +4,36 @@ coreman = {}
 coreman.component_types = {}
 coreman.system_types = {}
 
-function coreman.registerComponent(component_class)
-    coreman.component_types[component_class.type] = component_class
+function coreman.registerComponent(component_type)
+    if coreman.component_types[component_type] ~= nil then
+        error("Component type '" .. tostring(component_type) .. "' has already been registered")
+    end
+    
+    coreman.component_types[component_type.type] = component_type
 end
 
-function coreman.newComponent(component_class, entity)
-    print("1. ", component_class, entity)
-    return coreman.component_types[component_class](entity)
+function coreman.getComponentClass(component_type)
+    if coreman.component_types[component_type] == nil then
+        error("Component type '" .. tostring(component_type) .. "' does not exist or has not been registered")
+    end
+    
+    return coreman.component_types[component_type]
 end
 
-function coreman.registerSystem(system_class)
-    coreman.system_types[system_class.type] = system_class
+function coreman.registerSystem(system_type)
+    if coreman.system_types[system_type] ~= nil then
+        error("System type '" .. tostring(system_type) .. "' has already been registered")
+    end
+    
+    coreman.system_types[system_type.type] = system_type
 end
 
-function coreman.newSystem(system_class, scene)
-    return coreman.system_types[system_class](scene)
+function coreman.getSystemClass(system_type)
+    if coreman.system_types[system_type] == nil then
+        error("System type '" .. tostring(system_type) .. "' does not exist or has not been registered")
+    end
+    
+    return coreman.system_types[system_type]
 end
 
 return coreman

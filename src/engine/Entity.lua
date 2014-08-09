@@ -4,7 +4,7 @@ Entity = class()
 
 function Entity:__init(scene)
     self.scene = scene
-    self.components = {}
+    self.components = {} -- table<name:string, table<component>>
 end
 
 function Entity:destroy()
@@ -13,28 +13,73 @@ function Entity:destroy()
     end
 end
 
-function Entity:addComponent(component_name)
-    -- TODO: Error out on occupied slots, or destroy the previous component
-    local component = coreman.newComponent(component_name, self)
+function Entity:addComponent(component_type)
+    local ComponentClass = coreman.getComponentClass(component_type)
     
-    self.components[component_name] = component
-    self[component.slot] = component
+    self.components[component_type] = self.components[component_type] or {}
     
-    if component.collect then
-        self.scene.nodes[component.slot] = self.scene.nodes[component.slot] or {}
-        self.scene.nodes[component.slot][component] = component
+    if not ComponentClass.allow_multiple then
+        if #self.components[component_type] > 0 then
+            error("This Entity already has a '" .. component_type .. "' component, and it's not possible to add more")
+        end
+    end
+    
+    local component = ComponentClass(self)
+    
+    table.insert(self.components[component_type], component)
+    
+    if ComponentClass.slot then
+        if ComponentClass.allow_multiple then
+            self[ComponentClass.slot] = self[ComponentClass.slot] or {}
+            self[ComponentClass.slot][component] = component
+        else
+            self[ComponentClass.slot] = component
+        end
+        
+        if ComponentClass.collect then
+            self.scene.nodes[ComponentClass.slot] = self.scene.nodes[ComponentClass.slot] or {}
+            self.scene.nodes[ComponentClass.slot][component] = component
+        end
     end
 end
 
-function Entity:removeComponent(component_name)
-    local component = self.components[component_name]
+function Entity:getComponent(component_type)
+    local ComponentClass = coreman.gewComponentClass(component_type)
     
-    self[component.slot] = nil
-    self.components[component_name] = nil
-    
-    if component.collect then
-        self.scene.nodes[component.slot][component] = nil
+    if ComponentClass.allow_multiple then
+        error("Use Entity:getComponents(type) for components types that can be plural")
     end
     
-    component:destroy()
+    if not self.components[component_type] or #self.components[component_type] == 0 then
+        return nil
+    end
+    
+    return self.components[component_type][1]
+end
+
+
+function Entity:getComponents(component_type)
+    return self.components[component_type]
+end
+
+function Entity:removeComponent(component)
+    if not self.components[component.type][component] then
+        error("The component requested for removal does not belong to this entity")
+    end
+    
+    self.components[component.type][component] = nil
+    
+    if component.slot then
+        if component.allow_multiple then
+            self[component.slot][component] = nil
+        else
+            self[component.slot] = nil
+        end
+        
+        if component.collect then
+            self.scene.nodes[component.slot][component] = nil
+        end
+    end
+    
+    component:Destroy()
 end

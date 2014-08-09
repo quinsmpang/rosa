@@ -69,7 +69,7 @@ function console.createConsole()
         if key == "up" then
             if (#console.input_history == 0) then return end
             
-            if console.history_pos == -1 then
+            if console.history_pos == -1 and #console.input_history > 0 then
                 console.current_input = console.input_box:GetText()
                 console.history_pos = #console.input_history
                 console.input_box:SetText(console.input_history[console.history_pos])

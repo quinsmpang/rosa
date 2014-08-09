@@ -14,6 +14,7 @@ function GameState:load()
     
     self.scene = sceneman.newScene()
     self.scene:addSystem("RenderSystem")
+    self.scene:addSystem("AnimationSystem")
     
     self.player = self.scene:newEntity()
     self.player:addComponent("Drawable")

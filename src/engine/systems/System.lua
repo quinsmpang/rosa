@@ -5,6 +5,10 @@ System.type = "System"
 System.hooks = {}
 
 function System:__init(scene, enabled)
+    if not Scene.is(scene, Scene) then
+        error("Given scene argument is not an actual Scene instance")
+    end
+    
     self.scene = scene
     
     self.enabled = enabled or true
