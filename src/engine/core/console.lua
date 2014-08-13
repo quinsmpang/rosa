@@ -62,6 +62,7 @@ function console.createConsole()
         table.insert(console.input_history, text)
         console.input_box:Clear()
         console.current_input = "" -- Clear any input the user might have input before going towards earlier commands
+        console.history_pos = -1
     end
     
     local original_RunKey = console.input_box.RunKey
@@ -99,6 +100,7 @@ end
 
 function console.runCommand(text)
     do
+        local orig_print = print
         print = function(...)
             local arg = {...}
             local text_to_print = ""
@@ -121,11 +123,11 @@ function console.runCommand(text)
              .. "\nIn [" .. console.command_no .. "]: " .. text .. "\n\n"
         )
         
-        local code, err = loadstring(text)
+        local code, err = loadstring("return " .. text)
         
-        -- It's probably a statement, load it as one
+        -- It's not a statement, load directly
         if err then
-            code = loadstring("return " .. text)
+            code = loadstring(text)
         end
         
         local success, result = xpcall(code, 
@@ -147,6 +149,8 @@ function console.runCommand(text)
         end
         
         console.command_no = console.command_no + 1
+        
+        print = orig_print
     end
 end
 
