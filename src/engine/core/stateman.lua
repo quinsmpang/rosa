@@ -17,13 +17,15 @@ function stateman.setState(state)
 end
 
 function stateman.update(dt)
-    if not stateman.pause then
+    if not stateman.pause and stateman.current_state then
         stateman.current_state:update(dt)
     end
 end
 
 function stateman.draw()
-    stateman.current_state:draw()
+    if stateman.current_state then
+        stateman.current_state:draw()
+    end
 end
 
 function stateman.quit()
@@ -32,6 +34,12 @@ end
 
 function stateman.setPause(pause)
     stateman.pause = pause
+end
+
+function stateman.textinput(text)
+    if stateman.current_state then
+        stateman.current_state:textinput(text)
+    end
 end
 
 return stateman

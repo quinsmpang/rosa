@@ -28,7 +28,7 @@ function AnimationSystem:update(dt)
                 end
             end
             
-            if anim.frame ~= anim.last_frame then
+            if anim.frame ~= anim._last_frame then
                 anim.last_frame = anim.frame
                 
                 local quad_n = anim.animations[anim.animation].frames[anim.frame]

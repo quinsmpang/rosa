@@ -13,7 +13,7 @@ function utils.getDirectoryFiles(directory, recurse, _result_table)
 		if isdir == true and recurse == true then
 			table.insert(subdirectories, directory.. "/" .. filename)
 		else
-			local parts = loveframes.util.SplitString(filename, "([.])")
+			local parts = utils.splitString(filename, "%.")
             local name = table.concat(parts, "", 1, #parts-1)
             
 			table.insert(result_table, {
@@ -22,7 +22,8 @@ function utils.getDirectoryFiles(directory, recurse, _result_table)
 				requirepath = directory:gsub("/", ".") .. "." ..name,
 				filename = table.concat(parts),
                 name = name,
-				extension = parts[#parts]
+				extension = parts[#parts],
+                debug = parts
 			})
 		end
 	end
@@ -34,6 +35,58 @@ function utils.getDirectoryFiles(directory, recurse, _result_table)
 	end
 	
 	return result_table
+end
+
+function utils.splitString(text, separator)
+    local part = ""
+    local result = {}
+    
+    if not text:find(separator) then
+        return {text}
+    end
+    
+    while true do
+        part, text = text:match("(.-)" .. separator .. "(.+)")
+        
+        if text:find(separator) then
+            table.insert(result, part)
+        else
+            table.insert(result, part)
+            table.insert(result, text)
+            break
+        end
+    end
+    
+    return result
+end
+
+function utils.random_choice(table_or_str)
+    local index = math.random(1, #table_or_str)
+    if type(table_or_str) == "table" then
+        return table_or_str[index]
+    elseif type(table_or_str) == "string" then
+        return table_or_str:sub(index, index)
+    end
+end
+
+function utils.randomID(length, spec)
+    spec = spec or "base64"
+    local charset = nil
+    local result = ""
+    
+    if spec == "base64" then
+        charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    elseif spec == "digits" then
+        charset = "0123456789"
+    elseif spec == "letters" then
+        charset = "abcdefghijklmnopqrstuvwxyz"
+    end
+    
+    for i=1, length do
+        result = result .. utils.random_choice(charset)
+    end
+    
+    return result
 end
 
 return utils

@@ -26,7 +26,6 @@ function love.load(arg)
     love.graphics.setCanvas(canvas)
     
     require("src.states.GameState")
-    
     stateman.setState(GameState())
 end
 
@@ -142,5 +141,6 @@ function love.mousereleased(x, y, button)
 end
 
 function love.textinput(text)
+    stateman.textinput(text)
     loveframes.textinput(text)
 end

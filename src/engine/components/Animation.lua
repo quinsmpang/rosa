@@ -13,7 +13,6 @@ function Animation:__init(entity)
     self.animation = nil
     
     self.finished = true
-    self.last_frame = -1
     
     self.frame = 1
     self.frame_time = 0
@@ -21,6 +20,8 @@ function Animation:__init(entity)
     self.spritesheet = nil
     
     self.animations = {}
+    
+    self._last_frame = -1
 end
 
 function Animation:setSpritesheet(spritesheet)
@@ -52,7 +53,7 @@ function Animation:playAnimation(name)
     
     self.finished = false
     
-    self.last_frame = -1
+    self._last_frame = -1
 end
 
 function Animation:stopAnimation()

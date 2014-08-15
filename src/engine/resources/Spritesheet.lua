@@ -1,11 +1,11 @@
-require(rosa.prefix .. "resources.Resource")
+require(rosa.prefix .. "resman.Resource")
 
 local empty_quad = love.graphics.newQuad(0, 0, 0, 0, 1, 1)
 
 Spritesheet = Resource:extends()
 
 function Spritesheet:__init(image, tile_width, tile_height)
-    Resource.__init(self)
+    --Resource.__init(self)
     
     self.image = image
     

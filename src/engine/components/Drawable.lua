@@ -9,26 +9,12 @@ Drawable.collect = true
 function Drawable:__init(entity)
     Component.__init(self, entity)
     
-    self.transform = self.entity.transform
-    
-    self.drawable = nil
+    self.drawable = nil -- Resource reference
+    self.color = {255, 255, 255, 255}
     self.quad = nil
     
-    self.color = color or {255, 255, 255, 255}
-end
-
-function Drawable:draw()
-    local x, y, r, sx, sy = 0, 0, 0, 1, 1
-    
-    if self.transform then
-        x, y, r, sx, sy = self.transform:getTransform()
-    end
-    
-    if self.quad ~= nil then
-        love.graphics.draw(self.drawable, self.quad, x, y, r, sx, sy)
-    else
-        love.graphics.draw(self.drawable, x, y, r, sx, sy)
-    end
+    -- Runtime prop(s)
+    self._drawable = nil -- Cached drawable from the resource
 end
 
 coreman.registerComponent(Drawable)

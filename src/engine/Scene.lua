@@ -73,6 +73,10 @@ function Scene:newEntity()
     return entity
 end
 
+function Scene:instantiatePrefab(prefab_name)
+    return coreman.getPrefab(prefab_name):instantiate(self)
+end
+
 function Scene:removeEntity(entity)
     if self.entities[entity] == nil then return end
     

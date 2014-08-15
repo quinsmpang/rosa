@@ -39,7 +39,7 @@ function dir(obj, pretty_mode, expand_tables, _indent_level)
         end
 
         if not number_mode then
-            result = result .. k .. " = "
+            result = result .. tostring(k) .. " = "
         end
 
         if type(v) == "table" then

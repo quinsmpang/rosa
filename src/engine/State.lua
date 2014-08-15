@@ -11,3 +11,6 @@ function State:quit() end
 function State:update(dt) end
 
 function State:draw() end
+
+
+function State:textinput(text) end

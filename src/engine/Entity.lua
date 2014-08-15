@@ -4,6 +4,8 @@ Entity = class()
 
 function Entity:__init(scene)
     self.scene = scene
+    self.prefab = nil
+    
     self.components = {} -- table<name:string, table<component>>
 end
 
@@ -41,6 +43,8 @@ function Entity:addComponent(component_type)
             self.scene.nodes[ComponentClass.slot][component] = component
         end
     end
+    
+    return component
 end
 
 function Entity:getComponent(component_type)
