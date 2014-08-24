@@ -1,6 +1,4 @@
-class = require("lib.30log")
-
-Component = class()
+local Component = rosa.class()
 
 -- slot: What slot/name in the entity this component occupies
 -- type: the class name of this component, TODO: AA
@@ -11,7 +9,7 @@ Component.collect = false
 Component.allow_multiple = false
 
 function Component:__init(entity)
-    if not Entity.is(entity, Entity) then
+    if not rosa.types.Entity.is(entity, rosa.types.Entity) then
         error("Given entity argument is not an actual Entity instance")
     end
     
@@ -20,3 +18,5 @@ function Component:__init(entity)
 end
 
 function Component:destroy() end
+
+return Component

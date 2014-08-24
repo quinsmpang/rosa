@@ -1,4 +1,6 @@
-Tilemap = Component:extends()
+local Tilemap = rosa.components.Component:extends()
+
+-- WIP
 
 Tilemap.slot = "tilemap"
 Tilemap.type = "Tilemap"
@@ -58,4 +60,6 @@ function Tilemap:draw()
     end
 end
 
-coreman.registerComponent(Tilemap)
+rosa.coreman.registerComponent(Tilemap)
+
+return Tilemap

@@ -1,6 +1,4 @@
-flux = require "lib.flux.flux"
-
-Animation = Behavior:extends()
+local Animation = rosa.types.Behavior:extends()
 
 Animation.slot = "animation"
 Animation.type = "Animation"
@@ -8,7 +6,7 @@ Animation.collect = true
 
 
 function Animation:__init(entity)
-    Behavior.__init(self, entity)
+    self.super.__init(self, entity)
     
     self.animation = nil
     
@@ -60,4 +58,6 @@ function Animation:stopAnimation()
     self.finished = true
 end
 
-coreman.registerComponent(Animation)
+rosa.coreman.registerComponent(Animation)
+
+return Animation

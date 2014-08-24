@@ -1,10 +1,8 @@
-class = require("lib.30log")
-
 require("src.State")
 
 require("src.utils")
 
-MenuState = State:extends()
+MenuState = rosa.types.State:extends()
 
 function MenuState:start()
     

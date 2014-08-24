@@ -1,22 +1,37 @@
 rosa = {}
+rosa.types = {}
+
+rosa.resources = {}
+rosa.components = {}
+rosa.systems = {}
 
 rosa.prefix = (...):match("(.-)[^%.]+$") .. "engine."
 rosa.directory = rosa.prefix:gsub("%.", "/")
 
 local dir = rosa.prefix
 
+-- External libraries
+rosa.class = require(dir .. "libraries.30log")
+rosa.tween = require(dir .. "libraries.flux.flux")
+
+require(dir .. "libraries.loveframes")
+rosa.frames = loveframes
+--loveframes = nil
+
+-- Internal libraries
 rosa.utils = require(dir .. "libraries.utils")
 rosa.datatypes = require(dir .. "libraries.datatypes")
 
 -- Require the base classes
-require(dir .. "components.Component")
-require(dir .. "components.Behavior")
-require(dir .. "Entity")
-require(dir .. "Scene")
-require(dir .. "State")
-require(dir .. "Prefab")
-require(dir .. "resman.Resource")
-require(dir .. "systems.System")
+rosa.types.Component = require(dir .. "components.Component")
+rosa.types.Behavior = require(dir .. "components.Behavior")
+rosa.types.Entity = require(dir .. "Entity")
+rosa.types.Scene = require(dir .. "Scene")
+rosa.types.State = require(dir .. "State")
+rosa.types.ResourceReference = require(dir .. "resman.ResourceReference")
+rosa.types.Resource = require(dir .. "resman.Resource")
+rosa.types.Prefab = require(dir .. "Prefab")
+rosa.types.System = require(dir .. "systems.System")
 
 -- Require the systems
 rosa.keyboard = require(dir .. "core.keyboard")
@@ -35,7 +50,8 @@ rosa.resman = require(dir .. "resman.resman")
 local files = rosa.utils.getDirectoryFiles(rosa.directory .. "systems", false)
 for k, v in pairs(files) do
     if v.extension == "lua" then
-        require(v.requirepath)
+        local SystemClass = require(v.requirepath)
+        rosa.systems[SystemClass.type] = SystemClass
     end
 end
 
@@ -43,7 +59,8 @@ end
 local files = rosa.utils.getDirectoryFiles(rosa.directory .. "components", false)
 for k, v in pairs(files) do
     if v.extension == "lua" then
-        require(v.requirepath)
+        local ComponentClass = require(v.requirepath)
+        rosa.components[ComponentClass.type] = ComponentClass
     end
 end
 
@@ -51,6 +68,9 @@ end
 local files = rosa.utils.getDirectoryFiles(rosa.directory .. "resources", false)
 for k, v in pairs(files) do
     if v.extension == "lua" then
-        require(v.requirepath)
+        local ResourceClass = require(v.requirepath)
+        rosa.resources[ResourceClass.class_name] = ResourceClass
     end
 end
+
+return rosa

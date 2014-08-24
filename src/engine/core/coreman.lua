@@ -1,6 +1,4 @@
-require(rosa.prefix .. "components.Component")
-
-coreman = {}
+local coreman = {}
 coreman.component_types = {}
 coreman.system_types = {}
 coreman.prefabs = {}

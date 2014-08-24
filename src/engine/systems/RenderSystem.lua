@@ -1,6 +1,4 @@
-require(rosa.prefix .. "systems.System")
-
-RenderSystem = System:extends()
+local RenderSystem = rosa.types.System:extends()
 
 RenderSystem.slot = "render_system"
 RenderSystem.type = "RenderSystem"
@@ -28,4 +26,6 @@ function RenderSystem:draw()
     end
 end
 
-coreman.registerSystem(RenderSystem)
+rosa.coreman.registerSystem(RenderSystem)
+
+return RenderSystem

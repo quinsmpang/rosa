@@ -1,6 +1,4 @@
-require(rosa.prefix .. "core.keyboard")
-
-mouse = {}
+local mouse = {}
 
 function mouse.start()
     mouse.mapping = {
@@ -14,7 +12,7 @@ function mouse.start()
         x1 = "extra1",
         x2 = "extra2"
     }
-    mouse.base_modkeys = keyboard.base_modkeys
+    mouse.base_modkeys = rosa.keyboard.base_modkeys
     
     mouse.prev_position = {0, 0}
     mouse.raw_position = {0, 0}
@@ -78,7 +76,7 @@ end
 function mouse.mousepressed(x, y, button)
     button = mouse._translateButtonCode(button)
     -- Calculate the full keystring
-    local keystring = mouse._getKeystring(keyboard.modkeys_down, button)
+    local keystring = mouse._getKeystring(rosa.keyboard.modkeys_down, button)
     
     -- Get sorted modkeys as a string
     local modkeys, _ = mouse._splitKeyString(keystring)
@@ -93,7 +91,7 @@ function mouse.mousepressed(x, y, button)
     -- Don't mark wheel up/down as down - they never get released
     if button ~= "wheel_up" and button ~= "wheel_down" then
         mouse.down_raw[button] = true
-        mouse.down[button] = keyboard.down[button] or {}
+        mouse.down[button] = rosa.keyboard.down[button] or {}
         mouse.down[button][modkeys] = true
     end
 end

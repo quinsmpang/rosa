@@ -1,8 +1,4 @@
-require("lib.loveframes")
-
-require("src.utils")
-
-console = {}
+local console = {}
 console.toggled = false
 
 console.main_panel = nil
@@ -23,24 +19,24 @@ function console.initialize()
 end
 
 function console.createConsole()
-    console.main_panel = loveframes.Create("panel")
+    console.main_panel = rosa.frames.Create("panel")
 	console.main_panel:SetSize(love.graphics.getWidth(), love.graphics.getWidth() * 0.3)
 	console.main_panel:SetPos(0, -console.main_panel.height)
     console.toggled = false
 	
-    console.output_panel = loveframes.Create("panel", console.main_panel)
+    console.output_panel = rosa.frames.Create("panel", console.main_panel)
     console.output_panel:SetPos(0, 0)
     console.output_panel.Update = function(object)
 		object:SetSize(console.main_panel:GetWidth(), console.main_panel:GetHeight() - 24)
     end
     
-    console.input_panel = loveframes.Create("panel", console.main_panel)
+    console.input_panel = rosa.frames.Create("panel", console.main_panel)
     console.input_panel.Update = function(object)
 		object:SetSize(console.main_panel:GetWidth(), 24)
         object:SetPos(0, console.main_panel:GetHeight() - 24)
     end
     
-    console.output_box = loveframes.Create("textinput", console.output_panel)
+    console.output_box = rosa.frames.Create("textinput", console.output_panel)
     console.output_box:SetMultiline(true)
     console.output_box:SetEditable(false)
     console.output_box:ShowLineNumbers(false)
@@ -51,7 +47,7 @@ function console.createConsole()
     end
     
     
-    console.input_box = loveframes.Create("textinput", console.input_panel)
+    console.input_box = rosa.frames.Create("textinput", console.input_panel)
     console.input_box:SetMultiline(false)
     console.input_box.Update = function(object)
         object:SetSize(console.input_panel.width, console.input_panel.height)
@@ -155,14 +151,14 @@ function console.runCommand(text)
 end
 
 function console.hideConsole()
-    flux.to(console.main_panel, 0.1, {y=-console.main_panel.height}):oncomplete(function() console.main_panel.visible = false; end)
+    rosa.tween.to(console.main_panel, 0.1, {y=-console.main_panel.height}):oncomplete(function() console.main_panel.visible = false; end)
     console.toggled = false
     console.input_box:SetFocus(false)
 end
 
 function console.showConsole()
     console.main_panel.visible = true
-    flux.to(console.main_panel, 0.1, {y=0})
+    rosa.tween.to(console.main_panel, 0.1, {y=0})
     console.toggled = true
     console.input_box:SetFocus(true)
 end

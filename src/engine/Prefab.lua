@@ -1,6 +1,7 @@
-class = require("lib.30log")
+local Resource = rosa.types.Resource
+local ResourceReference = rosa.types.ResourceReference
 
-Prefab = class()
+local Prefab = rosa.class()
 
 function Prefab:__init(name, component_table)
     self.name = name
@@ -13,7 +14,7 @@ function Prefab:__init(name, component_table)
         end
     end
     
-    coreman.registerPrefab(self)
+    rosa.coreman.registerPrefab(self)
 end
 
 function Prefab:addComponent(component_type, properties)
@@ -44,3 +45,5 @@ function Prefab:instantiate(scene)
     
     return entity
 end
+
+return Prefab

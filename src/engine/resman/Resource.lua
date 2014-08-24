@@ -1,15 +1,6 @@
-class = require("lib.30log")
+local Resource = rosa.class()
 
-require(rosa.prefix .. "resman.ResourceReference")
-
-Blah = class()
-
-function Blah:__init()
-    return 1
-end
-
-Resource = class()
-
+Resource.class_name = "Resource"
 Resource.type = "resource"
 Resource.extensions = {}
 
@@ -25,7 +16,6 @@ function Resource:__init(...)
     self.last_modified = nil
     self.resource = nil
     self.references = rosa.datatypes.weaktable()
-    --self.references = rosa.utils.defaultdict(function() return ResourceReference(self) end)
     
     if #args == 0 then
         self:createEmpty()
@@ -39,11 +29,11 @@ function Resource:__init(...)
         error("Invalid arguments")
     end
     
-    resman.registerResource(self)
+    rosa.resman.registerResource(self)
 end
 
 function Resource:getReference()
-    local ref = ResourceReference(self)
+    local ref = rosa.types.ResourceReference(self)
     self.references[ref] = ref
     
     return ref
@@ -82,10 +72,12 @@ function Resource:reload()
         self:fromFile(path)
     else
         error("Only file and id protocols are supported")
-        -- TODO: Default to resman.reload or something
+        -- TODO: Default to rosa.resman.reload or something
     end
     
     for _, ref in pairs(self.references) do
         ref.modified = true
     end
 end
+
+return Resource

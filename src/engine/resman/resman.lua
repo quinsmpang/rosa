@@ -1,4 +1,4 @@
-resman = {}
+local resman = {}
 
 resman.update_delay = 1.0
 resman._until_update = resman.update_delay

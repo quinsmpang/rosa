@@ -1,6 +1,4 @@
-class = require("lib.30log")
-
-State = class()
+local State = rosa.class()
 
 function State:__init() end
 
@@ -14,3 +12,5 @@ function State:draw() end
 
 
 function State:textinput(text) end
+
+return State

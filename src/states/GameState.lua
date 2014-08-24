@@ -1,8 +1,6 @@
 require("src.engine.Camera")
 
-require "src.engine.resources.Spritesheet"
-
-GameState = State:extends()
+GameState = rosa.types.State:extends()
 
 function GameState:load()
     self.camera = Camera:new()
@@ -13,10 +11,10 @@ function GameState:load()
     self.scene:addSystem("RenderSystem")
     self.scene:addSystem("AnimationSystem")
     
-    self.mario_res = ImageResource("data/img/hires-mario.png")
+    self.mario_res = rosa.resources.ImageResource("data/img/hires-mario.png")
     
-    local mario_image = love.graphics.newImage("data/img/hires-mario.png")
-    local player_tilesheet = Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
+    --local mario_image = love.graphics.newImage("data/img/hires-mario.png")
+    --local player_tilesheet = rosa.resources.Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
     
     local mario_prefab = Prefab(
         "Mario",
@@ -35,45 +33,11 @@ function GameState:load()
         old_player = next_player
     end
     
-    --self.player = self.scene:newEntity()
-    --self.player:addComponent("Drawable")
-    --self.player.drawable.drawable = love.graphics.newImage("data/img/hires-mario.png")
-    --
-    --self.player:addComponent("Animation")
-    --
-    --player_tilesheet = Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
-    --self.player.animation:setSpritesheet(player_tilesheet)
-    --
-    --self.player.animation:addAnimation("idle", {1})
-    --self.player.animation:addAnimation("start walking", {2}, 100, "walk")
-    --self.player.animation:addAnimation("walk", {3, 4, 5}, 100, "walk")
-    --
-    --self.player.animation:playAnimation("start walking")
-    --
-    --self.player:addComponent("Transform")
-    --self.player.transform.x = 120
-    --
-    --self.terrain_tileset = Spritesheet(love.graphics.newImage("data/img/terrain_tiles.png"), 16, 16)
-    --self.player_tilesheet = Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
-    --
-    --self.map1 = Tilemap(0, 0, 12, 12)
-    --self.map1:setTileset(self.terrain_tileset)
-    --self.map1:setTile(4, 3, 1)
-    --self.map1:setTile(4, 4, 4)
-    --self.map1:setTile(4, 5, 1)
-    --self.map1:setTile(4, 6, 4)
-    
-    --self.player = Sprite(self.player_tilesheet, 24, 24)
-    --
     --self.player:addAnimation("idle", {1})
     --self.player:addAnimation("start walking", {2}, 100, "walk")
     --self.player:addAnimation("walk", {3, 4, 5}, 100, "walk")
     --
     --self.player:playAnimation("start walking")
-    --
-    --
-    --self.scene:addObject(self.map1)
-    --self.scene:addObject(self.player)
 end
 
 function GameState:update(dt)

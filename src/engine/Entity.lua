@@ -1,6 +1,4 @@
-class = require("lib.30log")
-
-Entity = class()
+local Entity = rosa.class()
 
 function Entity:__init(scene)
     self.scene = scene
@@ -16,7 +14,7 @@ function Entity:destroy()
 end
 
 function Entity:addComponent(component_type)
-    local ComponentClass = coreman.getComponentClass(component_type)
+    local ComponentClass = rosa.coreman.getComponentClass(component_type)
     
     self.components[component_type] = self.components[component_type] or {}
     
@@ -87,3 +85,5 @@ function Entity:removeComponent(component)
     
     component:Destroy()
 end
+
+return Entity

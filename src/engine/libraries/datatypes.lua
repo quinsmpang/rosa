@@ -1,4 +1,4 @@
-datatypes = {}
+local datatypes = {}
 
 function datatypes.defaultdict(default_value_factory)
   local object = {}

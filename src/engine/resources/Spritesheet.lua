@@ -1,8 +1,10 @@
-require(rosa.prefix .. "resman.Resource")
-
 local empty_quad = love.graphics.newQuad(0, 0, 0, 0, 1, 1)
 
-Spritesheet = Resource:extends()
+local Spritesheet = rosa.types.Resource:extends()
+
+Spritesheet.class_name = "Spritesheet"
+Spritesheet.type = "spritesheet"
+Spritesheet.extensions = {}
 
 function Spritesheet:__init(image, tile_width, tile_height)
     --Resource.__init(self)
@@ -32,3 +34,7 @@ function Spritesheet:__init(image, tile_width, tile_height)
 end
 
 -- TODO: Add tagged sprites. MAAAAYBE
+
+rosa.resman.registerResourceClass(Spritesheet)
+
+return Spritesheet

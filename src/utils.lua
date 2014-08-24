@@ -109,3 +109,24 @@ end
 function getAngle(x1, y1, x2, y2)
     return math.atan2( x1 - x2,  y1 - y2 )
 end
+
+function require_leak(module_to_require)
+    local before = {}
+    local leaked = {}
+    local return_value = nil
+    
+    --for k, v in pairs(getfenv()) do
+    for k, v in pairs(_G) do
+        before[k] = v
+    end
+    
+    return_value = require(module_to_require)
+    
+    for k, v in pairs(_G) do
+        if before[k] == nil then
+            table.insert(leaked, k)
+        end
+    end
+    
+    return return_value, leaked
+end

@@ -1,6 +1,4 @@
-require(rosa.prefix .. "systems.System")
-
-AnimationSystem = System:extends()
+local AnimationSystem = rosa.types.System:extends()
 
 AnimationSystem.slot = "animation_system"
 AnimationSystem.type = "AnimationSystem"
@@ -40,4 +38,6 @@ function AnimationSystem:update(dt)
     end
 end
 
-coreman.registerSystem(AnimationSystem)
+rosa.coreman.registerSystem(AnimationSystem)
+
+return AnimationSystem

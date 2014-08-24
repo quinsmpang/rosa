@@ -1,8 +1,4 @@
-class = require("lib.30log")
-
-require(rosa.prefix .. "Entity")
-
-Scene = class()
+local Scene = rosa.class()
 
 function Scene:__init()
     -- Entities contained in this scene
@@ -28,7 +24,7 @@ function Scene:__init()
 end
 
 function Scene:addSystem(system_name)
-    local SystemClass = coreman.getSystemClass(system_name)
+    local SystemClass = rosa.coreman.getSystemClass(system_name)
     
     if self.systems[system_name] ~= nil then
         error("This Scene instance already has a '" .. system_name .. "' system")
@@ -66,7 +62,7 @@ function Scene:removeSystem(system)
 end
 
 function Scene:newEntity()
-    local entity = Entity(self)
+    local entity = rosa.types.Entity(self)
     
     self.entities[entity] = entity
     
@@ -74,7 +70,7 @@ function Scene:newEntity()
 end
 
 function Scene:instantiatePrefab(prefab_name)
-    return coreman.getPrefab(prefab_name):instantiate(self)
+    return rosa.coreman.getPrefab(prefab_name):instantiate(self)
 end
 
 function Scene:removeEntity(entity)
@@ -100,3 +96,5 @@ function Scene:update(dt)
         system:update(dt)
     end
 end
+
+return Scene

@@ -1,8 +1,10 @@
 --require "modrun"
 
+require("src.utils")
 require("src.love_utils")
 
 require("src.engine")
+
 
 colors = {
     {9, 18, 73, 255},
@@ -24,9 +26,12 @@ function love.load(arg)
     canvas = love.graphics.newCanvas(canvas_width, canvas_height)
     canvas:setFilter("nearest", "nearest")
     love.graphics.setCanvas(canvas)
+    --
+    --require("src.states.GameState")
+    --stateman.setState(GameState())
     
-    require("src.states.GameState")
-    stateman.setState(GameState())
+    require("src.states.WorldState")
+    stateman.setState(WorldState())
 end
 
 function initializeEngine()
@@ -41,26 +46,16 @@ function initializeEngine()
         ProFi:start()
     end
     
-    -- Tweening library
-    flux = require("lib.flux.flux")
-    
-    -- GUI library
-    require("lib.loveframes")
-    
     -- Input subsystems
     keyboard = rosa.keyboard
     mouse = rosa.mouse
     
     -- Debug console
     console = rosa.console
-    --require("src.engine.console")
     
     -- Managers
     stateman = rosa.stateman
-    --sceneman = rosa.sceneman
     
-    --ui_enabled = true
-    --createMenubar(menu_template)
 end
 
 function shutdownEngine()
@@ -71,8 +66,8 @@ function shutdownEngine()
 end
 
 function love.update(dt)
-    loveframes.update(dt)
-    flux.update(dt)
+    rosa.frames.update(dt)
+    rosa.tween.update(dt)
     
     
     stateman.update(dt)
@@ -100,11 +95,11 @@ function love.draw()
     love.graphics.setCanvas()
     love.graphics.draw(canvas, 0, 0, 0, image_scale, image_scale)
     
-    loveframes.draw()
+    rosa.frames.draw()
 end
 
 function love.keypressed(key, isrepeat)
-    loveframes.keypressed(key)
+    rosa.frames.keypressed(key)
     
     if key == '`' then
         console.toggleConsole()
@@ -122,25 +117,25 @@ function love.keypressed(key, isrepeat)
 end
 
 function love.keyreleased(key)
-    loveframes.keyreleased(key)
+    rosa.frames.keyreleased(key)
     
     keyboard.keyreleased(key)
 end
 
 function love.mousepressed(x, y, button)
-    if loveframes.hover then
-        loveframes.mousepressed(x, y, button)
+    if rosa.frames.hover then
+        rosa.frames.mousepressed(x, y, button)
     else
         mouse.mousepressed(x, y, button)
     end
 end
 
 function love.mousereleased(x, y, button)
-    loveframes.mousereleased(x, y, button)
+    rosa.frames.mousereleased(x, y, button)
     mouse.mousereleased(x, y, button)
 end
 
 function love.textinput(text)
     stateman.textinput(text)
-    loveframes.textinput(text)
+    rosa.frames.textinput(text)
 end

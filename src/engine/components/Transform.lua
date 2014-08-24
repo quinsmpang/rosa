@@ -1,13 +1,11 @@
-require(rosa.prefix .. "components.Component")
-
-Transform = Component:extends()
+local Transform = rosa.components.Component:extends()
 
 Transform.slot = "transform"
 Transform.type = "Transform"
 Transform.collect = false
 
 function Transform:__init(entity)
-    Component.__init(self, entity)
+    self.super.__init(self, entity)
     
     self.x = 0
     self.y = 0
@@ -59,4 +57,6 @@ function Transform:destroy()
     self.child_transforms = nil
 end
 
-coreman.registerComponent(Transform)
+rosa.coreman.registerComponent(Transform)
+
+return Transform

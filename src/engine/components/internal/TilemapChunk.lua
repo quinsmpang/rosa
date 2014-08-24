@@ -1,4 +1,4 @@
-TilemapChunk = class()
+local TilemapChunk = rosa.class()
 
 function TilemapChunk:__init(tilemap, chunk_x, chunk_y, width_in_tiles, height_in_tiles)
     self.parent = tilemap
@@ -81,3 +81,5 @@ function TilemapChunk:draw()
     
     love.graphics.draw(self._sprite_batch, x, y)
 end
+
+return TilemapChunk

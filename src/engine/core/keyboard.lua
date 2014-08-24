@@ -1,4 +1,4 @@
-keyboard = {}
+local keyboard = {}
 
 function keyboard.start()
     keyboard.mapping = {

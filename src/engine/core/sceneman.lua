@@ -1,10 +1,8 @@
-require(rosa.prefix .. "Scene")
-
-sceneman = {}
+local sceneman = {}
 sceneman.scenes = {}
 
 function sceneman.newScene()
-    local new_scene = Scene()
+    local new_scene = rosa.types.Scene()
     
     sceneman.scenes[new_scene] = new_scene
     
