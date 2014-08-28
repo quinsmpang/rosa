@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local empty_quad = love.graphics.newQuad(0, 0, 0, 0, 1, 1)
 
 local Spritesheet = rosa.types.Resource:extends()

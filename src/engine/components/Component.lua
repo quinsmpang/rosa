@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Component = rosa.class()
 
 -- slot: What slot/name in the entity this component occupies

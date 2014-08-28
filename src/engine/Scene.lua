@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Scene = rosa.class()
 
 function Scene:__init()
@@ -61,16 +63,16 @@ function Scene:removeSystem(system)
     end
 end
 
-function Scene:newEntity()
-    local entity = rosa.types.Entity(self)
+function Scene:newEntity(parent) -- parent can be nil
+    local entity = rosa.types.Entity(self, parent)
     
     self.entities[entity] = entity
     
     return entity
 end
 
-function Scene:instantiatePrefab(prefab_name)
-    return rosa.coreman.getPrefab(prefab_name):instantiate(self)
+function Scene:instantiatePrefab(prefab_name, parent) -- parent can be nil
+    return rosa.coreman.getPrefab(prefab_name):instantiate(self, parent)
 end
 
 function Scene:removeEntity(entity)

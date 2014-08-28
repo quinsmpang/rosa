@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local TilemapChunk = rosa.class()
 
 function TilemapChunk:__init(tilemap, chunk_x, chunk_y, width_in_tiles, height_in_tiles)

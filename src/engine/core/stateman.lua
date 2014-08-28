@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local stateman = {}
 stateman.current_state = nil
 stateman.__dummy_func = function() end

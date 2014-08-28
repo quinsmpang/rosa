@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local State = rosa.class()
 
 function State:__init() end

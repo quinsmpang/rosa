@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local resman = {}
 
 resman.update_delay = 1.0

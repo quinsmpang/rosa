@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Animation = rosa.types.Behavior:extends()
 
 Animation.slot = "animation"

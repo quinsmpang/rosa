@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Behavior = rosa.types.Component:extends()
 
 Behavior.slot = nil

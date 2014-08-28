@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Resource = rosa.class()
 
 Resource.class_name = "Resource"
@@ -14,7 +16,7 @@ function Resource:__init(...)
     self.source = nil
     self.source_last_modified = nil
     self.last_modified = nil
-    self.resource = nil
+    self.data = nil
     self.references = rosa.datatypes.weaktable()
     
     if #args == 0 then

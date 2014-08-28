@@ -1,4 +1,4 @@
-require(rosa.prefix .. "components.Component")
+local rosa = require("__rosa")
 
 local Drawable = rosa.types.Component:extends()
 
@@ -15,6 +15,25 @@ function Drawable:__init(entity)
     
     -- Runtime prop(s)
     self._drawable = nil -- Cached drawable from the resource
+end
+
+function Drawable:draw()
+    if self._drawable == nil or self.drawable.modified then
+        self._drawable = self.drawable.resource.data
+        self.drawable.modified = false
+    end
+        
+    local x, y, r, sx, sy = 0, 0, 0, 1, 1
+
+    if self.entity.transform then
+        x, y, r, sx, sy = self.entity.transform:getTransform()
+    end
+    
+    if self.quad ~= nil then
+        love.graphics.draw(self._drawable, self.quad, x, y, r, sx, sy)
+    else
+        love.graphics.draw(self._drawable, x, y, r, sx, sy)
+    end
 end
 
 rosa.coreman.registerComponent(Drawable)

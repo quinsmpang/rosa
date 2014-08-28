@@ -21,15 +21,14 @@ function WorldState:load()
         {
             { "Drawable", {drawable=self.mario_res} },
             --{ "Animation", {spritesheet=player_spritesheet} },
-            { "Transform", {x=0, y=60, r=math.pi / 180.0 * 30} }
+            { "Transform", {x=0, y=60, r=math.pi / 180.0 * 30, relative=true} }
         }
     )
     
     self.player = self.scene:instantiatePrefab("Mario")
     local old_player = self.player
     for i=1, 11 do
-        local next_player = self.scene:instantiatePrefab("Mario")
-        next_player.transform:setParent(old_player)
+        local next_player = self.scene:instantiatePrefab("Mario", old_player)
         old_player = next_player
     end
     

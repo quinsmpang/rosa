@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local coreman = {}
 coreman.component_types = {}
 coreman.system_types = {}

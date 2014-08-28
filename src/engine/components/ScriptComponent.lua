@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local ScriptComponent = rosa.components.Behavior:extends()
 
 ScriptComponent.slot = "script"

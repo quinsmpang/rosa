@@ -1,4 +1,9 @@
-rosa = {}
+local rosa = {}
+
+local modname = ({...})[1]
+package.loaded[modname] = rosa
+package.loaded["__rosa"] = rosa -- The module name for submodules of rosa to use internally
+
 rosa.types = {}
 
 rosa.resources = {}
@@ -72,5 +77,3 @@ for k, v in pairs(files) do
         rosa.resources[ResourceClass.class_name] = ResourceClass
     end
 end
-
-return rosa

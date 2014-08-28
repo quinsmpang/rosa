@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Resource = rosa.types.Resource
 local ResourceReference = rosa.types.ResourceReference
 
@@ -23,8 +25,8 @@ function Prefab:addComponent(component_type, properties)
     table.insert(self.components[component_type], properties)
 end
 
-function Prefab:instantiate(scene)
-    local entity = scene:newEntity()
+function Prefab:instantiate(scene, parent) -- parent can be nil
+    local entity = scene:newEntity(parent)
     entity.prefab = self
     
     for component_type, list in pairs(self.components) do

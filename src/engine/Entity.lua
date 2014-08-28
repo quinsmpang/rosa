@@ -1,10 +1,49 @@
+local rosa = require("__rosa")
+
 local Entity = rosa.class()
 
-function Entity:__init(scene)
+function Entity:__init(scene, parent) -- parent can be nil
     self.scene = scene
     self.prefab = nil
     
+    if parent ~= nil then
+        parent.children[self] = self
+    end
+        
+    self.parent = parent -- nil or entity
+    self.children = {} -- set:table<entity, entity>
+    
     self.components = {} -- table<name:string, table<component>>
+end
+
+function Entity:addChild(entity)
+    if not rosa.types.Entity.is(entity, rosa.types.Entity) then
+        error("Given entity argument is not an actual Entity instance")
+    end
+    if self.children[entity] ~= nil then
+        return -- Should this error?
+    end
+    
+    entity:setParent(self)
+end
+
+function Entity:removeChild(entity)
+    if self.children[entity] ~= nil then
+        error("Given entity is not a child of this entity")
+    end
+    entity:setParent(nil)
+end
+
+function Entity:setParent(entity)
+    if entity == self.parent then return end
+    
+    if self.parent ~= nil then
+        self.parent.children[self] = nil
+    end
+    
+    self.parent = entity
+    
+    self.parent.children[self] = self
 end
 
 function Entity:destroy()

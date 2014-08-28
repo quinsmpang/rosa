@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local AnimationSystem = rosa.types.System:extends()
 
 AnimationSystem.slot = "animation_system"

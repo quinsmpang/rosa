@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 Camera = {}
 setmetatable(Camera,{
     __index = Camera;

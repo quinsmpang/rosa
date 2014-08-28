@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local keyboard = {}
 
 function keyboard.start()

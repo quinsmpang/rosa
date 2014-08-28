@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Tilemap = rosa.components.Component:extends()
 
 -- WIP

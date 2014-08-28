@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local Transform = rosa.components.Component:extends()
 
 Transform.slot = "transform"
@@ -13,31 +15,20 @@ function Transform:__init(entity)
     self.sx = 1.0
     self.sy = 1.0
     
-    self.parent_transform = nil
-    self.child_transforms = {}
-end
-
-function Transform:setParent(parent_entity)
-    if self.parent_transform ~= nil then
-        self.parent_transform.child_transforms[self] = nil
-    end
-    
-    self.parent_transform = parent_entity.transform
-    
-    if self.parent_transform ~= nil then
-        self.parent_transform.child_transforms[self] = self
-    end
+    self.relative = false
 end
 
 function Transform:getTransform()
-    if self.parent_transform then
-        local x, y, r, sx, sy = self.parent_transform:getTransform()
-        x = x + math.sin(r) * self.x + math.cos(r) * self.y
-        y = y + math.sin(r) * self.y + math.cos(r) * self.x
-        sx = sx * self.sx
-        sy = sy * self.sy
-        r = r + self.r
-        return x, y, r, sx, sy
+    if self.relative then
+        if self.entity.parent and self.entity.parent.transform then
+            local x, y, r, sx, sy = self.entity.parent.transform:getTransform()
+            x = x + math.sin(r) * self.x + math.cos(r) * self.y
+            y = y + math.sin(r) * self.y + math.cos(r) * self.x
+            sx = sx * self.sx
+            sy = sy * self.sy
+            r = r + self.r
+            return x, y, r, sx, sy
+        end
     end
     
     return self.x, self.y, self.r, self.sx, self.sy

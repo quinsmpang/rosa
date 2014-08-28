@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local System = rosa.class()
 
 System.type = "System"

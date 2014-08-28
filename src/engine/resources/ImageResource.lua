@@ -1,3 +1,5 @@
+local rosa = require("__rosa")
+
 local ImageResource = rosa.types.Resource:extends()
 
 ImageResource.class_name = "ImageResource"
@@ -14,13 +16,13 @@ function ImageResource:create(data)
     
     local image_data = love.image.newImageData(data[1], data[2])
     
-    self.resource = love.graphics.newImage(image_data)
+    self.data = love.graphics.newImage(image_data)
 end
 
 function ImageResource:fromFile(filename)
     self.super.fromFile(self, filename)
     
-    self.resource = love.graphics.newImage(filename)
+    self.data = love.graphics.newImage(filename)
 end
 
 function ImageResource:fromData(source, data)
@@ -30,7 +32,7 @@ function ImageResource:fromData(source, data)
     local image_data = love.image.newImageData(file_data)
     local image = love.graphics.newImage(image_data)
     
-    self.resource = image
+    self.data = image
 end
 
 rosa.resman.registerResourceClass(ImageResource)
