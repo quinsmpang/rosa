@@ -13,6 +13,9 @@ function Drawable:__init(entity)
     self.color = {255, 255, 255, 255}
     self.quad = nil
     
+    self.origin_x = 0
+    self.origin_y = 0
+    
     -- Runtime prop(s)
     self._drawable = nil -- Cached drawable from the resource
 end
@@ -28,6 +31,9 @@ function Drawable:draw()
     if self.entity.transform then
         x, y, r, sx, sy = self.entity.transform:getTransform()
     end
+    
+    x = x - (math.cos(r) * self.origin_x - math.sin(r) * self.origin_y)
+    y = y - (math.sin(r) * self.origin_x + math.cos(r) * self.origin_y)
     
     if self.quad ~= nil then
         love.graphics.draw(self._drawable, self.quad, x, y, r, sx, sy)

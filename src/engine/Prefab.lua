@@ -5,9 +5,10 @@ local ResourceReference = rosa.types.ResourceReference
 
 local Prefab = rosa.class()
 
-function Prefab:__init(name, component_table)
+function Prefab:__init(name, component_table, children)
     self.name = name
     self.components = {}
+    self.children = children or {}
     
     -- component_table = { { "ComponentClass", {prop1=0, prop2=0}}, ... }
     if component_table then
@@ -42,6 +43,14 @@ function Prefab:instantiate(scene, parent) -- parent can be nil
                     component[property] = value
                 end
             end
+        end
+    end
+    
+    for k, v in pairs(self.children) do
+        local child_entity = scene:instantiatePrefab(v)
+        entity:addChild(child_entity)
+        if type(k) == "string" then
+            entity:tagChild(child_entity, k)
         end
     end
     

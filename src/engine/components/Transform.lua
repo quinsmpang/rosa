@@ -22,8 +22,8 @@ function Transform:getTransform()
     if self.relative then
         if self.entity.parent and self.entity.parent.transform then
             local x, y, r, sx, sy = self.entity.parent.transform:getTransform()
-            x = x + math.sin(r) * self.x + math.cos(r) * self.y
-            y = y + math.sin(r) * self.y + math.cos(r) * self.x
+            x = x + (math.cos(r) * self.x - math.sin(r) * self.y)
+            y = y + (math.sin(r) * self.x + math.cos(r) * self.y)
             sx = sx * self.sx
             sy = sy * self.sy
             r = r + self.r

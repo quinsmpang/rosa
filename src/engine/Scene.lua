@@ -63,32 +63,43 @@ function Scene:removeSystem(system)
     end
 end
 
-function Scene:newEntity(parent) -- parent can be nil
-    local entity = rosa.types.Entity(self, parent)
+function Scene:newEntity()
+    local entity = rosa.types.Entity(self)
     
-    self.entities[entity] = entity
+    self.entities[entity] = true
     
     return entity
 end
 
-function Scene:instantiatePrefab(prefab_name, parent) -- parent can be nil
-    return rosa.coreman.getPrefab(prefab_name):instantiate(self, parent)
+function Scene:instantiatePrefab(prefab_name)
+    return rosa.coreman.getPrefab(prefab_name):instantiate(self)
 end
 
 function Scene:removeEntity(entity)
-    if self.entities[entity] == nil then return end
+    if self.entities[entity] == nil then
+        error("Given entity does not belong to this Scene")
+    end
     
+    if type(self.entities[entity]) == "string" then
+        local tag = self.entities[entity]
+        self.entities[tag] = nil
+    end
     self.entities[entity] = nil
     
     entity:Destroy()
 end
 
-function Scene:draw(camera)
+function Scene:tagEntity(entity, tag)
+    self.entities[entity] = tag
+    self.entities[tag] = entity
+end
+
+function Scene:draw(viewport, camera)
     if not self.render_system then return end
     
     if camera ~= nil then camera:set() end
     
-    self.render_system:draw()
+    self.render_system:draw(camera)
     
     if camera ~= nil then camera:unset() end
 end

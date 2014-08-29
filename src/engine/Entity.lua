@@ -11,7 +11,7 @@ function Entity:__init(scene, parent) -- parent can be nil
     end
         
     self.parent = parent -- nil or entity
-    self.children = {} -- set:table<entity, entity>
+    self.children = {} -- entity --> true/tag or tag --> entity
     
     self.components = {} -- table<name:string, table<component>>
 end
@@ -28,7 +28,7 @@ function Entity:addChild(entity)
 end
 
 function Entity:removeChild(entity)
-    if self.children[entity] ~= nil then
+    if self.children[entity] == nil then
         error("Given entity is not a child of this entity")
     end
     entity:setParent(nil)
@@ -38,12 +38,22 @@ function Entity:setParent(entity)
     if entity == self.parent then return end
     
     if self.parent ~= nil then
+        local tag = self.parent.children[self]
+        self.parent.children[tag] = nil
         self.parent.children[self] = nil
     end
     
     self.parent = entity
     
-    self.parent.children[self] = self
+    self.parent.children[self] = true
+end
+
+function Entity:tagChild(entity, tag)
+    if self.children[entity] == nil then
+        error("Given entity is not a child of this entity")
+    end
+    self.children[tag] = entity
+    self.children[entity] = tag
 end
 
 function Entity:destroy()

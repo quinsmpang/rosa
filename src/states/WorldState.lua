@@ -3,6 +3,7 @@ require("src.engine.Camera")
 WorldState = rosa.types.State:extends()
 
 function WorldState:load()
+    love.graphics.setDefaultFilter("nearest")
     self.camera = Camera:new()
     self.camera.screen_scale = image_scale
     self.camera.pixel_perfect = true
@@ -12,31 +13,40 @@ function WorldState:load()
     self.scene:addSystem("AnimationSystem")
     
     self.mario_res = rosa.resources.ImageResource("data/img/hires-mario.png")
+    self.hat1_res = rosa.resources.ImageResource("data/img/hires-mario-hat1.png")
     
     --local mario_image = love.graphics.newImage("data/img/hires-mario.png")
     --local player_tilesheet = rosa.resources.Spritesheet(love.graphics.newImage("data/img/player_sprites.png"), 16, 16)
     
+    local hat_prefab = rosa.types.Prefab(
+        "Mario_Hat_1",
+        {
+            { "Drawable", {drawable=self.hat1_res, origin_x=15, origin_y=19} },
+            { "Transform", {x=0, y=-13, relative=true} }
+        }
+    )
+    
     local mario_prefab = rosa.types.Prefab(
         "Mario",
         {
-            { "Drawable", {drawable=self.mario_res} },
+            { "Drawable", {drawable=self.mario_res, origin_x=16, origin_y=16} },
             --{ "Animation", {spritesheet=player_spritesheet} },
-            { "Transform", {x=0, y=60, r=math.pi / 180.0 * 30, relative=true} }
-        }
+            { "Transform", {x=60, y=0, r=math.pi / 180.0 * 30, relative=true} }
+        },
+        {hat = "Mario_Hat_1"}
     )
     
     self.player = self.scene:instantiatePrefab("Mario")
     local old_player = self.player
     for i=1, 11 do
-        local next_player = self.scene:instantiatePrefab("Mario", old_player)
+        local next_player = self.scene:instantiatePrefab("Mario")
+        old_player:addChild(next_player)
         old_player = next_player
     end
     
-    --self.player:addAnimation("idle", {1})
-    --self.player:addAnimation("start walking", {2}, 100, "walk")
-    --self.player:addAnimation("walk", {3, 4, 5}, 100, "walk")
-    --
-    --self.player:playAnimation("start walking")
+    local hat = self.scene:instantiatePrefab("Mario_Hat_1")
+    self.player:addChild(hat)
+    self.player:tagChild(hat, "hat")
 end
 
 function WorldState:update(dt)

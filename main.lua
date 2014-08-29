@@ -3,7 +3,7 @@
 require("src.utils")
 require("src.love_utils")
 
-require("src.engine")
+rosa = require("src.engine")
 
 
 colors = {
