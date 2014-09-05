@@ -89,4 +89,49 @@ function utils.randomID(length, spec)
     return result
 end
 
+function utils.sortedByKey(t, f)
+    f = f or function(a, b) return a < b end
+    local t2 = {}
+    for k, v in pairs(t) do
+        revkeys[v] = k;
+        table.insert(t2, v)
+    end
+    table.sort(t2, function(a, b) return f(revkeys[a], revkeys[b]) end)
+    return t2
+end
+
+-- String utils
+utils.string = {}
+
+function utils.string.startswith(s, beginning)
+   return string.sub(str,1,string.len(beginning)) == beginning
+end
+
+function utils.string.endswith(str, ending)
+   return (ending == '') or string.sub(str,-string.len(ending)) == ending
+end
+
+utils.math = {}
+
+function utils.math.rotate_bbox(x1, y1, x2, y2, r, ox, oy)
+    x1, y1, x2, y2 = x1 - ox, y1 - oy, x2 - ox, y2 - ox
+    ox, oy = ox or 0, oy or 0
+    local x3, y3, x4, y4, x5, y5, x6, y6
+    local sin, cos = math.sin, math.cos
+    x3 = ox + (x1) * cos(r) + (y1) * sin(r)
+    y3 = oy - (x1) * sin(r) + (y1) * cos(r)
+    
+    x4 = ox + (x2) * cos(r) + (y1) * sin(r)
+    y4 = oy - (x2) * sin(r) + (y1) * cos(r)
+    
+    x5 = ox + (x1) * cos(r) + (y2) * sin(r)
+    y5 = oy - (x1) * sin(r) + (y2) * cos(r)
+    
+    x6 = ox + (x2) * cos(r) + (y2) * sin(r)
+    y6 = oy - (x2) * sin(r) + (y2) * cos(r)
+    
+    --print(r, math.min(x3, x4, x5, x6), math.min(y3, y4, x5, x6), math.max(x3, x4, x5, x6), math.max(y3, y4, x5, x6))
+    return math.min(x3, x4, x5, x6), math.min(y3, y4, y5, y6), math.max(x3, x4, x5, x6), math.max(y3, y4, y5, y6)
+end
+
 return utils
