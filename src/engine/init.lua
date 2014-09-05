@@ -6,10 +6,6 @@ package.loaded["__rosa"] = rosa -- The module name for submodules of rosa to use
 
 rosa.types = {}
 
-rosa.resources = {}
-rosa.components = {}
-rosa.systems = {}
-
 rosa.prefix = (...):match("(.-)[^%.]+$") .. "engine."
 rosa.directory = rosa.prefix:gsub("%.", "/")
 
@@ -51,12 +47,16 @@ rosa.coreman  = require(dir .. "core.coreman")
 -- Resource manager
 rosa.resman = require(dir .. "resman.resman")
 
+rosa.resources = rosa.datatypes.reqtable(dir .. "resources")
+rosa.components = rosa.datatypes.reqtable(dir .. "components")
+rosa.systems = rosa.datatypes.reqtable(dir .. "systems")
+
 -- Require the systems
 local files = rosa.utils.getDirectoryFiles(rosa.directory .. "systems", false)
 for k, v in pairs(files) do
     if v.extension == "lua" then
         local SystemClass = require(v.requirepath)
-        rosa.systems[SystemClass.type] = SystemClass
+        rosa.systems[SystemClass.__name] = SystemClass
     end
 end
 
@@ -65,7 +65,7 @@ local files = rosa.utils.getDirectoryFiles(rosa.directory .. "components", false
 for k, v in pairs(files) do
     if v.extension == "lua" then
         local ComponentClass = require(v.requirepath)
-        rosa.components[ComponentClass.type] = ComponentClass
+        rosa.components[ComponentClass.__name] = ComponentClass
     end
 end
 
@@ -74,6 +74,6 @@ local files = rosa.utils.getDirectoryFiles(rosa.directory .. "resources", false)
 for k, v in pairs(files) do
     if v.extension == "lua" then
         local ResourceClass = require(v.requirepath)
-        rosa.resources[ResourceClass.class_name] = ResourceClass
+        rosa.resources[ResourceClass.__name] = ResourceClass
     end
 end

@@ -2,8 +2,8 @@ local rosa = require("__rosa")
 
 local AnimationSystem = rosa.types.System:extends()
 
-AnimationSystem.slot = "animation_system"
-AnimationSystem.type = "AnimationSystem"
+AnimationSystem.__name = "AnimationSystem"
+AnimationSystem.type = "animation_system"
 AnimationSystem.hooks = { "update" }
 
 function AnimationSystem:update(dt)

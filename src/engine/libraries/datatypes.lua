@@ -1,14 +1,15 @@
 local datatypes = {}
 
 function datatypes.defaultdict(default_value_factory)
-  local object = {}
-  local metatable = {}
-  metatable.__index = function(object, key)
-    local value = rawget(object, key)
-    return value or default_value_factory()
-  end
-  setmetatable(object, metatable)
-  return object
+    local t = {}
+    local metatable = {}
+    metatable.__index = function(t, key)
+        if not rawget(t, key) then
+            rawset(t, key, default_value_factory())
+        end
+        return rawget(t, key)
+    end
+    return setmetatable(t, metatable)
 end
 
 function datatypes.weakref(target)

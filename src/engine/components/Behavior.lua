@@ -2,12 +2,12 @@ local rosa = require("__rosa")
 
 local Behavior = rosa.types.Component:extends()
 
-Behavior.slot = nil
-Behavior.type = "Behavior"
+Behavior.__name = "Behavior"
+Behavior.type = nil
 Behavior.collect = false
 
 function Behavior:__init(entity, enabled)
-    self.super.__init(self, entity)
+    Behavior.super.__init(self, entity)
     
     self.enabled = enabled or true
 end

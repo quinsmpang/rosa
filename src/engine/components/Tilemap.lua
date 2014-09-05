@@ -4,8 +4,8 @@ local Tilemap = rosa.components.Component:extends()
 
 -- WIP
 
-Tilemap.slot = "tilemap"
-Tilemap.type = "Tilemap"
+Tilemap.__name = "Tilemap"
+Tilemap.type = "tilemap"
 Tilemap.collect = false
 
 require(rosa.prefix .. "components.internal.TilemapChunk")

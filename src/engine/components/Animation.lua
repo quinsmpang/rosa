@@ -2,13 +2,13 @@ local rosa = require("__rosa")
 
 local Animation = rosa.types.Behavior:extends()
 
-Animation.slot = "animation"
-Animation.type = "Animation"
+Animation.__name = "Animation"
+Animation.type = "animation"
 Animation.collect = true
 
 
 function Animation:__init(entity)
-    self.super.__init(self, entity)
+    Animation.super.__init(self, entity)
     
     self.animation = nil
     

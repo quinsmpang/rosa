@@ -4,13 +4,14 @@ WorldState = rosa.types.State:extends()
 
 function WorldState:load()
     love.graphics.setDefaultFilter("nearest")
-    self.camera = Camera:new()
+    self.camera = Camera()
     self.camera.screen_scale = image_scale
     self.camera.pixel_perfect = true
     
     self.scene = rosa.sceneman.newScene()
     self.scene:addSystem("RenderSystem")
     self.scene:addSystem("AnimationSystem")
+    self.scene.render_system.layers = {"bg", "tiles", "moving", "decor"}
     
     self.mario_res = rosa.resources.ImageResource("data/img/hires-mario.png")
     self.hat1_res = rosa.resources.ImageResource("data/img/hires-mario-hat1.png")
@@ -21,7 +22,7 @@ function WorldState:load()
     local hat_prefab = rosa.types.Prefab(
         "Mario_Hat_1",
         {
-            { "Drawable", {drawable=self.hat1_res, origin_x=15, origin_y=19} },
+            { "ImageDrawable", {image=self.hat1_res, origin_x=15, origin_y=19, layer="decor"} },
             { "Transform", {x=0, y=-13, relative=true} }
         }
     )
@@ -29,7 +30,7 @@ function WorldState:load()
     local mario_prefab = rosa.types.Prefab(
         "Mario",
         {
-            { "Drawable", {drawable=self.mario_res, origin_x=16, origin_y=16} },
+            { "ImageDrawable", {image=self.mario_res, origin_x=16, origin_y=16, layer="moving"} },
             --{ "Animation", {spritesheet=player_spritesheet} },
             { "Transform", {x=60, y=0, r=math.pi / 180.0 * 30, relative=true} }
         },
@@ -75,5 +76,7 @@ function WorldState:draw()
     --love.graphics.setBackgroundColor(unpack(colors[4]))
     love.graphics.clear()
     
-    self.scene:draw(self.camera)
+    viewport = {canvas:getDimensions()}
+    
+    self.scene:draw(viewport, self.camera)
 end

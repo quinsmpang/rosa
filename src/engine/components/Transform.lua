@@ -2,12 +2,12 @@ local rosa = require("__rosa")
 
 local Transform = rosa.components.Component:extends()
 
-Transform.slot = "transform"
-Transform.type = "Transform"
+Transform.__name = "Transform"
+Transform.type = "transform"
 Transform.collect = false
 
 function Transform:__init(entity)
-    self.super.__init(self, entity)
+    Transform.super.__init(self, entity)
     
     self.x = 0
     self.y = 0

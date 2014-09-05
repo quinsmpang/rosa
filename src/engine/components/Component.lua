@@ -5,8 +5,8 @@ local Component = rosa.class()
 -- slot: What slot/name in the entity this component occupies
 -- type: the class name of this component, TODO: AA
 -- collect: Whether this component should be pooled for any systems that might want to iterate on it
-Component.slot = nil
-Component.type = "Component"
+Component.__name = "Component"
+Component.type = nil
 Component.collect = false
 Component.allow_multiple = false
 

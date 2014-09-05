@@ -36,8 +36,8 @@ function Scene:addSystem(system_name)
     
     self.systems[system_name] = system
     
-    if system.slot then
-        self[system.slot] = system
+    if system.type then
+        self[system.type] = system
     end
     
     for _, hook in ipairs(system.hooks) do
@@ -56,7 +56,7 @@ function Scene:removeSystem(system)
     end
     
     self.systems[system.name] = nil
-    self[system.slot] = nil
+    self[system.type] = nil
     
     for _, hook in ipairs(system.hooks) do
         self.hooks[hook][system] = nil

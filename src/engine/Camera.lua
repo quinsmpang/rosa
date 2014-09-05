@@ -1,25 +1,15 @@
 local rosa = require("__rosa")
 
-Camera = {}
-setmetatable(Camera,{
-    __index = Camera;
-});
+Camera = rosa.class()
 
-function Camera:new(x, y, scaleX, scaleY, rotation, screen_scale, pixel_perfect)
-    newObject = setmetatable(
-        {
-            x = x or 0,
-            y = y or 0,
-            scaleX = scaleX or 1,
-            scaleY = scaleY or 1,
-            rotation = rotation or 0.0,
-            screen_scale = screen_scale or 1,
-            pixel_perfect = pixel_perfect or false,
-        },
-        getmetatable(self)
-    ); --create a new table and give it the metatable of Camera
-    
-    return newObject
+function Camera:__init(x, y, scaleX, scaleY, rotation, screen_scale, pixel_perfect)
+    self.x = x or 0
+    self.y = y or 0
+    self.scaleX = scaleX or 1
+    self.scaleY = scaleY or 1
+    self.rotation = rotation or 0.0
+    self.screen_scale = screen_scale or 1
+    self.pixel_perfect = pixel_perfect or false
 end
 
 

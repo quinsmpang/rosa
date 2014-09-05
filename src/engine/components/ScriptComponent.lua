@@ -2,13 +2,13 @@ local rosa = require("__rosa")
 
 local ScriptComponent = rosa.components.Behavior:extends()
 
-ScriptComponent.slot = "script"
-ScriptComponent.type = "ScriptComponent"
+ScriptComponent.__name = "ScriptComponent"
+ScriptComponent.type = "script"
 ScriptComponent.collect = true
 ScriptComponent.allow_multiple = true
 
 function ScriptComponent:__init(entity, enabled)
-    self.super.__init(self, entity, enabled or false)
+    ScriptComponent.super.__init(self, entity, enabled or false)
     
     self.transform = self.entity.transform
     

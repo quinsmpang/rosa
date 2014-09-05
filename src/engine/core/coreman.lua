@@ -10,7 +10,7 @@ function coreman.registerComponent(component_type)
         error("Component type '" .. tostring(component_type) .. "' has already been registered")
     end
     
-    coreman.component_types[component_type.type] = component_type
+    coreman.component_types[component_type.__name] = component_type
 end
 
 function coreman.getComponentClass(component_type)
@@ -26,7 +26,7 @@ function coreman.registerSystem(system_type)
         error("System type '" .. tostring(system_type) .. "' has already been registered")
     end
     
-    coreman.system_types[system_type.type] = system_type
+    coreman.system_types[system_type.__name] = system_type
 end
 
 function coreman.getSystemClass(system_type)

@@ -2,7 +2,7 @@ local rosa = require("__rosa")
 
 local Resource = rosa.class()
 
-Resource.class_name = "Resource"
+Resource.__name = "Resource"
 Resource.type = "resource"
 Resource.extensions = {}
 

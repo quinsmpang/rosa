@@ -77,17 +77,17 @@ function Entity:addComponent(component_type)
     
     table.insert(self.components[component_type], component)
     
-    if ComponentClass.slot then
+    if ComponentClass.type then
         if ComponentClass.allow_multiple then
-            self[ComponentClass.slot] = self[ComponentClass.slot] or {}
-            self[ComponentClass.slot][component] = component
+            self[ComponentClass.type] = self[ComponentClass.type] or {}
+            self[ComponentClass.type][component] = component
         else
-            self[ComponentClass.slot] = component
+            self[ComponentClass.type] = component
         end
         
         if ComponentClass.collect then
-            self.scene.nodes[ComponentClass.slot] = self.scene.nodes[ComponentClass.slot] or {}
-            self.scene.nodes[ComponentClass.slot][component] = component
+            self.scene.nodes[ComponentClass.type] = self.scene.nodes[ComponentClass.type] or {}
+            self.scene.nodes[ComponentClass.type][component] = component
         end
     end
     
@@ -120,15 +120,15 @@ function Entity:removeComponent(component)
     
     self.components[component.type][component] = nil
     
-    if component.slot then
+    if component.type then
         if component.allow_multiple then
-            self[component.slot][component] = nil
+            self[component.type][component] = nil
         else
-            self[component.slot] = nil
+            self[component.type] = nil
         end
         
         if component.collect then
-            self.scene.nodes[component.slot][component] = nil
+            self.scene.nodes[component.type][component] = nil
         end
     end
     
